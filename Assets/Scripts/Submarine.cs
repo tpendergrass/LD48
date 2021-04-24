@@ -25,12 +25,12 @@ public class Submarine : MonoBehaviour {
         submarine.SetControlling(false);
         subCamera.gameObject.SetActive(false);
         occupant.transform.position = entryPoint.transform.position;
+        occupant.SetActive(true);
         if(entryPoint.isSubmerged) {
             occupant.SendMessage("StartSwimming");
         } else {
             occupant.SendMessage("StopSwimming");
         }
-        occupant.SetActive(true);
         occupant = null;
     }
 }
