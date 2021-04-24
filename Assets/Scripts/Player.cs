@@ -16,6 +16,7 @@ public class Player : MonoBehaviour {
     public float swimGravity = 0.01f;
     public float swimDampening = 0.3f;
     public bool isSwimming = false;
+    public Interact interactCheck;
     // Start is called before the first frame update
     void Start() {
         controller = gameObject.GetComponent<CharacterController>();
@@ -25,6 +26,7 @@ public class Player : MonoBehaviour {
     void Update() {
         if(isControlling) {
             mouseLook.Look();
+            handleInteraction();
         }
         if(isSwimming) {
             handleSwimming();
@@ -32,6 +34,15 @@ public class Player : MonoBehaviour {
             handleWalking();
         }
     }
+
+    void handleInteraction() {
+        if(!Input.GetKeyDown(KeyCode.E)) {
+            return;
+        }
+
+        interactCheck.PerformAction(this);
+    }
+
     // ========= MOVEMENT ==========
     void handleSwimming() {
         calculateFloating();
