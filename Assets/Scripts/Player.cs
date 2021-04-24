@@ -118,4 +118,11 @@ public class Player : MonoBehaviour {
     public void StopSwimming() {
         isSwimming = false;
     }
+
+    public void SetControlling(bool canControl) {
+        isControlling = canControl;
+        if(!isControlling) {
+            movementVector = Vector3.zero;
+        }
+    }
 }
