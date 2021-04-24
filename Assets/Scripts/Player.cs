@@ -6,6 +6,9 @@ public class Player : MonoBehaviour {
     private CharacterController controller;
     public float moveSpeed;
     private Vector3 movementVector;
+    public Vector3 verticalVelocity;
+    public float jumpHeight;
+    public float gravity = -0.1f;
     // Start is called before the first frame update
     void Start() {
         controller = gameObject.GetComponent<CharacterController>();
@@ -13,28 +16,37 @@ public class Player : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        movementVector = Vector3.zero;
-        calculateMovementInput();
+        Debug.Log(controller.isGrounded);
         calculateGravity();
-        controller.Move(movementVector);
+        calculateJump();
+        calculateMovementInput();
+        controller.Move(movementVector * moveSpeed * Time.deltaTime);
+        controller.Move(verticalVelocity);
     }
 
     void calculateGravity() {
         if(controller.isGrounded) {
+            verticalVelocity.y = -1 * Time.deltaTime;
             return;
         }
 
-        movementVector.y = Physics.gravity.y * Time.deltaTime; //check for swimmin?
+        verticalVelocity.y += gravity  * Time.deltaTime; //check for swimmin?
     }
 
     void calculateMovementInput() {
+        movementVector.x = 0;
+        movementVector.z = 0;
         movementVector += transform.forward * (Input.GetAxis("Vertical"));
         movementVector += transform.right * (Input.GetAxis("Horizontal"));
         //prevent diagonal movement exceeding max speed
         if(movementVector.magnitude > 1) {
-            movementVector = movementVector.normalized * moveSpeed * Time.deltaTime;
-        } else {
-            movementVector *= moveSpeed * Time.deltaTime;
+            movementVector = movementVector.normalized;
+        }
+    }
+
+    void calculateJump() {
+        if(Input.GetButtonDown("Jump") && controller.isGrounded) {
+            verticalVelocity.y = jumpHeight;
         }
     }
 }
