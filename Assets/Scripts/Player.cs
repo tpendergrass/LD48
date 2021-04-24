@@ -5,10 +5,15 @@ using UnityEngine;
 public class Player : MonoBehaviour {
     private CharacterController controller;
     public float moveSpeed;
-    private Vector3 movementVector;
+    public Camera mainCamera;
+    public Vector3 movementVector;
     public Vector3 verticalVelocity;
+    private Vector3 verticalSwimDampening;
     public float jumpHeight;
     public float gravity = -0.1f;
+    public float swimGravity = 0.01f;
+    public float swimDampening = 0.3f;
+    public bool isSwimming = false;
     // Start is called before the first frame update
     void Start() {
         controller = gameObject.GetComponent<CharacterController>();
@@ -16,12 +21,47 @@ public class Player : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        Debug.Log(controller.isGrounded);
+        if(isSwimming) {
+            handleSwimming();
+        } else {
+            handleWalking();
+        }
+    }
+    // ========= MOVEMENT ==========
+    void handleSwimming() {
+        calculateFloating();
+        calculateJump();
+        calculateSwimmingInput();
+        controller.Move(movementVector * moveSpeed * Time.deltaTime);
+        controller.Move(verticalVelocity);
+    }
+
+    void handleWalking() {
         calculateGravity();
         calculateJump();
         calculateMovementInput();
         controller.Move(movementVector * moveSpeed * Time.deltaTime);
         controller.Move(verticalVelocity);
+    }
+
+    void calculateFloating() {
+        if(movementVector.y != 0) {
+            verticalVelocity.y = movementVector.y * Time.deltaTime;
+            movementVector.y = 0; // transfer vertical movement from movement to vertical velocity.
+        }
+        verticalVelocity.y += swimGravity * Time.deltaTime;
+        verticalVelocity = Vector3.SmoothDamp(verticalVelocity, Vector3.zero, ref verticalSwimDampening, swimDampening);
+    }
+
+    void calculateSwimmingInput() {
+        movementVector.x = 0;
+        movementVector.z = 0;
+        movementVector += mainCamera.transform.forward * (Input.GetAxis("Vertical"));
+        movementVector += transform.right * (Input.GetAxis("Horizontal"));
+        //prevent diagonal movement exceeding max speed
+        if(movementVector.magnitude > 1) {
+            movementVector = movementVector.normalized;
+        }
     }
 
     void calculateGravity() {
@@ -48,5 +88,14 @@ public class Player : MonoBehaviour {
         if(Input.GetButtonDown("Jump") && controller.isGrounded) {
             verticalVelocity.y = jumpHeight;
         }
+    }
+
+    // ============== Triggered Behavior ===========
+    public void StartSwimming() {
+        isSwimming = true;
+    }
+
+    public void StopSwimming() {
+        isSwimming = false;
     }
 }
