@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
+    public bool isControlling;
     private CharacterController controller;
     public float moveSpeed;
     public Camera mainCamera;
@@ -30,16 +31,20 @@ public class Player : MonoBehaviour {
     // ========= MOVEMENT ==========
     void handleSwimming() {
         calculateFloating();
-        calculateJump();
-        calculateSwimmingInput();
+        if(isControlling) {
+            calculateJump();
+            calculateSwimmingInput();
+        }
         controller.Move(movementVector * moveSpeed * Time.deltaTime);
         controller.Move(verticalVelocity);
     }
 
     void handleWalking() {
         calculateGravity();
-        calculateJump();
-        calculateMovementInput();
+        if(isControlling) {
+            calculateJump();
+            calculateMovementInput();
+        }
         controller.Move(movementVector * moveSpeed * Time.deltaTime);
         controller.Move(verticalVelocity);
     }
