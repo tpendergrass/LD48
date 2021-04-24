@@ -1,0 +1,23 @@
+Toolset
+========
+Unity 2020.3.5f1
+Blender 2.92.0
+Audacity 3.0.2
+Visual Studio Code 1.55
+OBS 26.1.1
+
+Credits
+=========
+Thomas Pendergrass
+Programmer
+
+Tyler Glaze
+Puzzle Design
+
+Jeremy
+Graphics Artist
+Animator
+Musician
+
+Brandon Stone
+???
