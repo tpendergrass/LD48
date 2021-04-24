@@ -8,6 +8,7 @@ public class MouseLook : MonoBehaviour {
     private float headRotation; //eulerAngle limits are hard when quaternions are involved...
     public Vector2 headAngleLimit;
     public float mouseSensitivity;
+    public float selfRightSpeed = 3.5f;
     // Update is called once per frame
 
     void Start() {
@@ -15,11 +16,25 @@ public class MouseLook : MonoBehaviour {
         Cursor.visible = false;
     }
 
-    void Update() {
+    public void Look() {
         float deltaXRotation = Input.GetAxis("Mouse X") * mouseSensitivity;
         float deltaYRotation = Input.GetAxis("Mouse Y") * mouseSensitivity;
-        RotateHead(-deltaYRotation); //natural mouse movement is inverted.
-        RotateBody(deltaXRotation);
+        if(!head) {
+            RotateAll(deltaXRotation, -deltaYRotation);
+        } else {
+            RotateHead(-deltaYRotation); //natural mouse movement is inverted.
+            RotateBody(deltaXRotation);
+        }
+    }
+
+    void RotateAll(float deltaX, float deltaY) {
+        body.transform.Rotate(new Vector3(deltaY, deltaX, 0));
+        MakeUpright();
+    }
+
+    void MakeUpright() {
+        Quaternion targetRotation = Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation;
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, selfRightSpeed * Time.deltaTime);
     }
 
     void RotateBody(float delta) {

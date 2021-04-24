@@ -5,8 +5,9 @@ using UnityEngine;
 public class Player : MonoBehaviour {
     public bool isControlling;
     private CharacterController controller;
+    public MouseLook mouseLook;
     public float moveSpeed;
-    public Camera mainCamera;
+    public GameObject mainCamera;
     public Vector3 movementVector;
     public Vector3 verticalVelocity;
     private Vector3 verticalSwimDampening;
@@ -15,6 +16,7 @@ public class Player : MonoBehaviour {
     public float swimGravity = 0.01f;
     public float swimDampening = 0.3f;
     public bool isSwimming = false;
+    public Interact interactCheck;
     // Start is called before the first frame update
     void Start() {
         controller = gameObject.GetComponent<CharacterController>();
@@ -22,12 +24,25 @@ public class Player : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if(isControlling) {
+            mouseLook.Look();
+            handleInteraction();
+        }
         if(isSwimming) {
             handleSwimming();
         } else {
             handleWalking();
         }
     }
+
+    void handleInteraction() {
+        if(!Input.GetKeyDown(KeyCode.E)) {
+            return;
+        }
+
+        interactCheck.PerformAction(this);
+    }
+
     // ========= MOVEMENT ==========
     void handleSwimming() {
         calculateFloating();
@@ -102,5 +117,12 @@ public class Player : MonoBehaviour {
 
     public void StopSwimming() {
         isSwimming = false;
+    }
+
+    public void SetControlling(bool canControl) {
+        isControlling = canControl;
+        if(!isControlling) {
+            movementVector = Vector3.zero;
+        }
     }
 }
