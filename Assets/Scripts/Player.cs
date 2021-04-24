@@ -17,6 +17,8 @@ public class Player : MonoBehaviour {
     public float swimDampening = 0.3f;
     public bool isSwimming = false;
     public Interact interactCheck;
+    public PlayerUI playerUI;
+    public GameObject flashlight;
     // Start is called before the first frame update
     void Start() {
         controller = gameObject.GetComponent<CharacterController>();
@@ -27,12 +29,22 @@ public class Player : MonoBehaviour {
         if(isControlling) {
             mouseLook.Look();
             handleInteraction();
+            handleFlashlight();
         }
         if(isSwimming) {
             handleSwimming();
         } else {
             handleWalking();
         }
+    }
+
+    void handleFlashlight() {
+        if(!Input.GetKeyDown(KeyCode.F)) {
+            return;
+        }
+
+        flashlight.SetActive(!flashlight.activeSelf);
+        playerUI.SetFlashlight(flashlight.activeSelf);
     }
 
     void handleInteraction() {
