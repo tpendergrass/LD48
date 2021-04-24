@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Submarine : MonoBehaviour {
     public bool isControlling;
     private CharacterController controller;
     public MouseLook mouseLook;

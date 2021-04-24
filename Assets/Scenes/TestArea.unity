@@ -230,6 +230,7 @@ GameObject:
   - component: {fileID: 203277634}
   - component: {fileID: 203277635}
   - component: {fileID: 203277633}
+  - component: {fileID: 203277636}
   m_Layer: 0
   m_Name: PersonalSubmarine
   m_TagString: Untagged
@@ -269,6 +270,7 @@ Transform:
   - {fileID: 2142236111}
   - {fileID: 964024691}
   - {fileID: 494979902}
+  - {fileID: 1458002859}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -284,16 +286,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 572ad76544726b445b7fd2535834eb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isControlling: 0
-  moveSpeed: 0
-  mainCamera: {fileID: 963194227}
+  isControlling: 1
+  mouseLook: {fileID: 203277636}
+  moveSpeed: 7
+  mainCamera: {fileID: 203277632}
   movementVector: {x: 0, y: 0, z: 0}
   verticalVelocity: {x: 0, y: 0, z: 0}
   jumpHeight: 0
   gravity: -0.1
-  swimGravity: 0.01
+  swimGravity: -0.001
   swimDampening: 0.3
   isSwimming: 0
+--- !u!114 &203277636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203277632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c226c960d254a74c81099ed23454d9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 203277632}
+  head: {fileID: 0}
+  headAngleLimit: {x: -75, y: 75}
+  mouseSensitivity: 1
+  selfRightSpeed: 0.2
 --- !u!1 &331629150
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,7 +805,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &963194226
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1042,6 +1062,89 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: -12.378, y: -29.042, z: -58.59}
+--- !u!1 &1458002858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1458002859}
+  - component: {fileID: 1458002861}
+  - component: {fileID: 1458002860}
+  m_Layer: 0
+  m_Name: Main Camera (1)
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1458002859
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458002858}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.08, z: -0.53}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 203277634}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &1458002860
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458002858}
+  m_Enabled: 1
+--- !u!20 &1458002861
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458002858}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1 &1756271700
 GameObject:
   m_ObjectHideFlags: 0
@@ -1261,7 +1364,7 @@ GameObject:
   - component: {fileID: 1987873712}
   - component: {fileID: 1987873713}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1298,8 +1401,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isControlling: 0
+  mouseLook: {fileID: 1987873712}
   moveSpeed: 5
-  mainCamera: {fileID: 963194227}
+  mainCamera: {fileID: 963194225}
   movementVector: {x: 0, y: 0, z: 0}
   verticalVelocity: {x: 0, y: -0.0001486694, z: 0}
   jumpHeight: 0.04
@@ -1387,6 +1491,7 @@ MonoBehaviour:
   head: {fileID: 963194225}
   headAngleLimit: {x: -85, y: 85}
   mouseSensitivity: 1
+  selfRightSpeed: 3.5
 --- !u!135 &1987873713
 SphereCollider:
   m_ObjectHideFlags: 0
