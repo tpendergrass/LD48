@@ -1,1 +1,1 @@
-public enum EnemyState {Idle, Chasing, Attacking, Wandering };
+public enum EnemyState {Idle, Chasing, Attacking, Wandering, Sleeping };

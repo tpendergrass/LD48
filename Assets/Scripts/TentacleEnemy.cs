@@ -28,6 +28,9 @@ public class TentacleEnemy : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         switch(state) {
+            case EnemyState.Sleeping:
+                anim.SetInteger("AnimState", -1);
+                break;
             case EnemyState.Idle:
                 anim.SetInteger("AnimState", 0);
                 lookAt(idleLookDirection);
