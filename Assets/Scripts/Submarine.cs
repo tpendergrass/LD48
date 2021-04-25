@@ -12,6 +12,9 @@ public class Submarine : MonoBehaviour {
         if(submarine.isControlling && Input.GetKeyDown(KeyCode.E)) {
             ExitSubmarine();
         }
+        if(occupant) {
+            occupant.transform.position = transform.position;
+        }
     }
 
     public void EnterSubmarine(GameObject requester) {
@@ -28,8 +31,10 @@ public class Submarine : MonoBehaviour {
         occupant.SetActive(true);
         if(entryPoint.isSubmerged) {
             occupant.SendMessage("StartSwimming");
+            occupant.BroadcastMessage("SetSubmerged", true);
         } else {
             occupant.SendMessage("StopSwimming");
+            occupant.BroadcastMessage("SetSubmerged", false);
         }
         occupant = null;
     }

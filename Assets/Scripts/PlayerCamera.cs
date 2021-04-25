@@ -9,6 +9,10 @@ public class PlayerCamera : MonoBehaviour {
         manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
     }
 
+    public void SetSubmerged(bool isSubmerged) {
+        submergedDetector.isSubmerged = isSubmerged;
+    }
+
     // Update is called once per frame
     void Update() {
         manager.SetWaterFog(submergedDetector.isSubmerged);
