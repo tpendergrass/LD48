@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
     }
 
     void handleFogDepth() {
-        float depthRange = player.transform.position.y/-37.0f;
+        float depthRange = player.transform.position.y/-84.0f;
         RenderSettings.fogDensity = Mathf.Lerp(lowFogDensity, highFogDensity, depthRange);
         RenderSettings.fogColor = Color.Lerp(lowFogColor, highFogColor, depthRange);
     }
