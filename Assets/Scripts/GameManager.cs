@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour {
     public float fogRate;
@@ -11,9 +12,11 @@ public class GameManager : MonoBehaviour {
 
     private float fogTransitionVelocity;
     public GameObject player;
+        public UnityEvent gameStartEvents;
 
     void Start() {
         player = GameObject.FindGameObjectWithTag("Player");
+        gameStartEvents.Invoke();
     }
 
     // Update is called once per frame
