@@ -9,9 +9,24 @@ public class EnvironmentManager : MonoBehaviour {
     public float targetFogDensity;
     public float fogRate = 0.2f;
     private float fogTransitionVelocity;
+    public GameObject sunlight;
     public bool underwater = false;
+    public GameObject player;
+    public float lowFogDensity = 0.02f;
+    public float highFogDensity = 0.08f;
+    public Color lowFogColor;
+    public Color highFogColor; 
+
+    void Start() {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+
     // Start is called before the first frame update
     void Update() {
+        if(underwater) {
+            handleFogDepth();
+            return;
+        }
         if(Input.GetKeyDown(KeyCode.Keypad7)) {
             SetAboveGround();
         }
@@ -33,11 +48,11 @@ public class EnvironmentManager : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void SetAboveGround() {
+    public void SetAboveGround() {
         ApplySetting(0);
     }
 
-    void SetBelowGround() {
+    public void SetBelowGround() {
         ApplySetting(1);
     }
 
@@ -46,6 +61,7 @@ public class EnvironmentManager : MonoBehaviour {
         RenderSettings.skybox = settings[settingIndex].skyboxMaterial;
         RenderSettings.fogColor = settings[settingIndex].fogColor;
         targetFogDensity = settings[settingIndex].fogDensity;
+        sunlight.SetActive(settings[settingIndex].sunlight);
     }
 
     void ForceSetting(int settingIndex) {
@@ -54,17 +70,23 @@ public class EnvironmentManager : MonoBehaviour {
         targetFogDensity = settings[settingIndex].fogDensity;
     }
 
-    void SetUnderWater() {
-        ForceSetting(2);
+    public void SetUnderWater() {
+        // ForceSetting(2);
         underwater = true;
     }
 
-    void SetAboveWater() {
+    public void SetAboveWater() {
         ForceSetting(currentIndex);
         underwater = false;
     }
 
     void TransitionFog() {
         RenderSettings.fogDensity = Mathf.SmoothDamp(RenderSettings.fogDensity, targetFogDensity, ref fogTransitionVelocity, fogRate);
+    }
+
+    void handleFogDepth() {
+        float depthRange = player.transform.position.y/-84.0f;
+        RenderSettings.fogDensity = Mathf.Lerp(lowFogDensity, highFogDensity, depthRange);
+        RenderSettings.fogColor = Color.Lerp(lowFogColor, highFogColor, depthRange);
     }
 }

@@ -5,12 +5,6 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-    public float fogRate;
-    public float lowFogDensity = 0.02f;
-    public float highFogDensity = 0.08f;
-    public Color lowFogColor;
-    public Color highFogColor; 
-
     private float fogTransitionVelocity;
     public GameObject player;
     public UnityEvent gameStartEvents;
@@ -26,6 +20,8 @@ public class GameManager : MonoBehaviour {
     public GameObject[] TunnelRubble;
     public AnimPlayTrigger[] TentacleBlocker;
     public WaterLevelManager waterLevel;
+    public GameObject victoryScreen;
+    public GameObject kraken;
 
     void Start() {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -35,14 +31,8 @@ public class GameManager : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         // TransitionFogDensity();
-        handleFogDepth();
+        // handleFogDepth(); // MOVE THIS TO ENVIRONMENT MANAGER
         handleDepthCharge();
-    }
-
-    void handleFogDepth() {
-        float depthRange = player.transform.position.y/-84.0f;
-        RenderSettings.fogDensity = Mathf.Lerp(lowFogDensity, highFogDensity, depthRange);
-        RenderSettings.fogColor = Color.Lerp(lowFogColor, highFogColor, depthRange);
     }
 
     void handleDepthCharge() {
@@ -92,7 +82,11 @@ public class GameManager : MonoBehaviour {
         depthChargeUI.SetActive(isVisible);
     }
 
-    void TransitionFogDensity() {
-        // RenderSettings.fogDensity = Mathf.SmoothDamp(RenderSettings.fogDensity, fogDensity, ref fogTransitionVelocity, fogRate);
+    public void ShowVictoryScreen() {
+        victoryScreen.SetActive(true);
+    }
+
+    public void ReleaseTheKraken() {
+        kraken.SetActive(true);
     }
 }

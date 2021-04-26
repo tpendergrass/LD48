@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour {
     public SubmergedDetector submergedDetector;
-    public GameManager manager;
+    public EnvironmentManager manager;
     public ParticleSystem waterParticles;
     void Start() {
-        manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<EnvironmentManager>();
     }
 
     public void SetSubmerged(bool isSubmerged) {
@@ -16,7 +16,12 @@ public class PlayerCamera : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        manager.SetWaterFog(submergedDetector.isSubmerged);
+        if(manager.underwater) {
+            manager.SetUnderWater();
+        } else {
+            manager.SetAboveWater();
+        }
+        manager.underwater = submergedDetector.isSubmerged;
         waterParticles.gameObject.SetActive(submergedDetector.isSubmerged);
     }
 }

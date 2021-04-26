@@ -23,5 +23,10 @@ public class Cheats : MonoBehaviour {
             Debug.Log("bye");
             player.transform.position = teleports[1].position;
         }
+
+        if(Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.Keypad2)) {
+            Debug.Log("Trapped");
+            player.transform.position = teleports[2].position;
+        }
     }
 }

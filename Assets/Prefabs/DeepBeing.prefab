@@ -243,7 +243,7 @@ MonoBehaviour:
   anim: {fileID: 466257682145817908}
   SlapperAttackBox: {fileID: 2026209196}
   agent: {fileID: 1429167862}
-  sound: {fileID: 0}
+  sound: {fileID: 1508453159}
 --- !u!82 &1508453158
 AudioSource:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public class TutorialManager : MonoBehaviour {
         CancelInvoke();
         messageText.text = message;
         messageBox.SetActive(true);
-        Invoke("ClearMessage", 4);
+        Invoke("ClearMessage", 8);
     }
 
     void ClearMessage() {
