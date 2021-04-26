@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour {
     public AnimPlayTrigger[] TentacleBlocker;
     public WaterLevelManager waterLevel;
     public GameObject victoryScreen;
+    public GameObject kraken;
 
     void Start() {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -95,6 +96,10 @@ public class GameManager : MonoBehaviour {
 
     public void ShowVictoryScreen() {
         victoryScreen.SetActive(true);
+    }
+
+    public void ReleaseTheKraken() {
+        kraken.SetActive(true);
     }
 
     void TransitionFogDensity() {
