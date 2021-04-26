@@ -14,6 +14,7 @@ public class TentacleEnemy : MonoBehaviour {
     public GameObject TentacleAttackBox;
     public bool isHiding;
     public GameObject burrowEffect;
+    public Collider blocker;
 
     void Start() {
         InvokeRepeating("pickRandomDirection", 0.0f, Random.Range(3, 6));
@@ -32,22 +33,26 @@ public class TentacleEnemy : MonoBehaviour {
         switch(state) {
             case EnemyState.Sleeping:
                 anim.SetInteger("AnimState", -1);
+                blocker.enabled = false;
                 break;
             case EnemyState.Idle:
                 anim.SetInteger("AnimState", 0);
                 lookAt(idleLookDirection);
+                blocker.enabled = true;
                 //swing your tentacles back and forth
                 break;
             case EnemyState.Chasing:
                 anim.SetInteger("AnimState", 1);
                 handleChasing();
                 CheckForAttackDistance();
+                blocker.enabled = true;
                 break;
             case EnemyState.Attacking:
                 anim.SetInteger("AnimState", 1);
                 handleChasing();
                 CheckForAttackDistance();
                 Attack();
+                blocker.enabled = true;
                 break;
         }
     }
