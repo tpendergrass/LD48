@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class ObjectDetector : MonoBehaviour {
     public bool detectPlayer;
+    private GameObject playerTarget;
     public GameObject target;
     public UnityEvent detectEvent;
     public UnityEvent lossEvent;
@@ -16,8 +17,8 @@ public class ObjectDetector : MonoBehaviour {
     }
 
     void OnTriggerEnter(Collider other) {
-        if(target) {
-            if(other.transform.root.gameObject != target) {
+        if(playerTarget) {
+            if(other.transform.root.gameObject != playerTarget) {
                 return;
             }
         } else {
@@ -32,8 +33,8 @@ public class ObjectDetector : MonoBehaviour {
     }
 
     void OnTriggerExit(Collider other) {
-        if(target) {
-            if(other.transform.root.gameObject != target) {
+        if(playerTarget) {
+            if(other.transform.root.gameObject != playerTarget) {
                 return;
             }
         }

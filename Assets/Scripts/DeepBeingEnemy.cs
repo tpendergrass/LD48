@@ -51,6 +51,7 @@ public class DeepBeingEnemy : MonoBehaviour {
             case EnemyState.Attacking:
                 anim.SetInteger("AnimState", 0);
                 handleChasing();
+                lookAt(target.transform.position);
                 CheckForAttackDistance();
                 Attack();
                 break;
@@ -77,11 +78,15 @@ public class DeepBeingEnemy : MonoBehaviour {
     }
 
     void DetectedTarget(GameObject newTarget) {
+        Debug.Log("New Target!");
         target = newTarget;
         state = EnemyState.Chasing;
     }
 
-    void LostTarget(GameObject newTarget) {
+    void LostTarget(GameObject lostTarget) {
+        if(lostTarget != target) {
+            return;
+        }
         state = EnemyState.Idle;
         target = null;
     }
