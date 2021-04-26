@@ -6,6 +6,7 @@ public class PlayerItem : MonoBehaviour {
     public GameObject flare;
     public int flareCount;
     public GameObject activeItem;
+    public PlayerUI playerUI;
 
     // Update is called once per frame
     void Update() {
@@ -14,16 +15,28 @@ public class PlayerItem : MonoBehaviour {
     }
 
     void handleItemUsage() {
-        if(!activeItem || !Input.GetButtonDown("Fire1")) {
+        if(!activeItem || !Input.GetButtonDown("Fire1") || flareCount <= 0) {
             return;
         }
 
+        flareCount -= 1;
+        playerUI.SetFlareCount(flareCount);
         activeItem.SendMessage("UseItem");
+
+        if(flareCount <= 0) {
+            flare.SetActive(false);
+            activeItem = null;
+        }
+    }
+
+    public void SetFlares(int amount) {
+        flareCount = amount;
+        playerUI.SetFlareCount(flareCount);
     }
 
     void handleInventorySwitching() {
         if(Input.GetKeyDown(KeyCode.Alpha1)) {
-            if(flareCount < 0) {
+            if(flareCount <= 0) {
                 return;
             }
             flare.SetActive(!flare.activeSelf);
