@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour {
     public Text DepthChargeCounterText;
     public GameObject[] TunnelRubble;
     public AnimPlayTrigger[] TentacleBlocker;
+    public WaterLevelManager waterLevel;
 
     void Start() {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -55,8 +56,13 @@ public class GameManager : MonoBehaviour {
             DepthChargeArmed = false;
             DepthChargeCounterUI.SetActive(false);
             TunnelRubble[DepthChargeTunnel].SetActive(true);
-            ClearTentacle();
+            Invoke("SetWater", 1);
+            ClearTentacle(); // This fails on last charge. must be last action.
         }
+    }
+
+    void SetWater() {
+        waterLevel.SetWaterLevel(DepthChargeTunnel + 1);
     }
 
     void ClearTentacle() {
