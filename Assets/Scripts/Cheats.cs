@@ -18,5 +18,10 @@ public class Cheats : MonoBehaviour {
             Debug.Log("hi");
             player.transform.position = teleports[0].position;
         }
+
+        if(Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.Keypad1)) {
+            Debug.Log("bye");
+            player.transform.position = teleports[1].position;
+        }
     }
 }
