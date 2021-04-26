@@ -12,7 +12,9 @@ public class GameManager : MonoBehaviour {
 
     private float fogTransitionVelocity;
     public GameObject player;
-        public UnityEvent gameStartEvents;
+    public UnityEvent gameStartEvents;
+    public GameObject flareUI;
+    public GameObject flashlightUI;
 
     void Start() {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -33,6 +35,14 @@ public class GameManager : MonoBehaviour {
 
     public void SetWaterFog(bool isOn) {
         RenderSettings.fog = isOn;
+    }
+
+    public void EnableFlareUI() {
+        flareUI.SetActive(true);
+    }
+
+    public void EnableFlashlightUI() {
+        flashlightUI.SetActive(true);
     }
 
     void TransitionFogDensity() {

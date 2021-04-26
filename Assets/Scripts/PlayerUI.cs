@@ -7,6 +7,7 @@ public class PlayerUI : MonoBehaviour {
     public Text interactMessage;
     public GameObject interactPanel;
     public Text flashlightText;
+    public Text flareText;
 
     public void ShowInteractionPrompt(string message) {
         interactMessage.text = message;
@@ -23,5 +24,9 @@ public class PlayerUI : MonoBehaviour {
         } else {
             flashlightText.text = "F | Flashlight: OFF";
         }
+    }
+
+    public void SetFlareCount(int amount) {
+        flareText.text = "1 | Flares: " + amount.ToString() + " Remaining";
     }
 }
