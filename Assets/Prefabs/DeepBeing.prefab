@@ -342,6 +342,10 @@ PrefabInstance:
       propertyPath: m_AABB.m_Extent.z
       value: 0.06450223
       objectReference: {fileID: 0}
+    - target: {fileID: 645087703424819856, guid: a0ee8674f61121342958df2753fe4f51, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: f15ad039698518d45aa8f7731b1e354b, type: 2}
     - target: {fileID: 919132149155446097, guid: a0ee8674f61121342958df2753fe4f51, type: 3}
       propertyPath: m_Name
       value: DeepBeing3
