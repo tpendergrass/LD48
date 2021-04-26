@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour {
     public bool isControlling;
@@ -19,9 +20,14 @@ public class Player : MonoBehaviour {
     public Interact interactCheck;
     public PlayerUI playerUI;
     public GameObject flashlight;
+
+    public int playerHealth = 4;
+    public UnityEvent damageEvent;
+    public GameObject gameOverScreen;
     // Start is called before the first frame update
     void Start() {
         controller = gameObject.GetComponent<CharacterController>();
+        playerHealth *= 2; //DUMB HAX because camera collider doubles damage --FACEPALM--
     }
 
     // Update is called once per frame
@@ -136,5 +142,18 @@ public class Player : MonoBehaviour {
         if(!isControlling) {
             movementVector = Vector3.zero;
         }
+    }
+
+    public void ApplyDamage(int amount) {
+        playerHealth -= 1;
+        damageEvent.Invoke();
+        if(isControlling && playerHealth <= 0) {
+            Die();
+        }
+    }
+
+    public void Die() {
+        isControlling = false;
+        gameOverScreen.SetActive(true);
     }
 }
