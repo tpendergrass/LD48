@@ -12,6 +12,8 @@ public class TentacleEnemy : MonoBehaviour {
     public Animator anim;
     private Vector3 idleLookDirection;
     public GameObject TentacleAttackBox;
+    public bool isHiding;
+    public GameObject burrowEffect;
 
     void Start() {
         InvokeRepeating("pickRandomDirection", 0.0f, Random.Range(3, 6));
@@ -63,20 +65,39 @@ public class TentacleEnemy : MonoBehaviour {
 
     void CheckForAttackDistance() {
         if(Vector3.Distance(target.transform.position, transform.position) < attackRadius) {
-            state = EnemyState.Attacking;
+            SetState(EnemyState.Attacking);
         } else {
-            state = EnemyState.Chasing;
+            SetState(EnemyState.Chasing);
         }
+    }
+
+    public void DetectedFlare() {
+        SetState(EnemyState.Sleeping);
+        isHiding = true;
     }
 
     void DetectedTarget(GameObject newTarget) {
         target = newTarget;
-        state = EnemyState.Chasing;
+        SetState(EnemyState.Chasing);
     }
 
     void LostTarget(GameObject newTarget) {
-        state = EnemyState.Idle;
+        SetState(EnemyState.Idle);
         target = null;
+    }
+
+    void SetState(EnemyState newState) {
+        if(newState == EnemyState.Sleeping) {
+            burrowEffect.SetActive(true);
+        }
+
+        if(state == EnemyState.Sleeping && newState == EnemyState.Chasing) {
+            burrowEffect.SetActive(true);
+        }
+
+        if(!isHiding) {
+            state = newState;
+        }
     }
 
     void handleChasing() {
