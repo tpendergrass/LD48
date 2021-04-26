@@ -8,4 +8,5 @@ public struct EnvironmentSetting {
     public Material skyboxMaterial;
     public Color fogColor;
     public float fogDensity;
+    public bool sunlight;
 }
