@@ -15,6 +15,7 @@ public class TentacleEnemy : MonoBehaviour {
     public bool isHiding;
     public GameObject burrowEffect;
     public Collider blocker;
+    public SoundManager sound;
 
     void Start() {
         InvokeRepeating("pickRandomDirection", 0.0f, Random.Range(3, 6));
@@ -60,6 +61,7 @@ public class TentacleEnemy : MonoBehaviour {
     void Attack() {
         if(lastAttack > attackRate) {
             TentacleAttackBox.SetActive(true);
+            sound.Play(1);
             anim.SetInteger("AnimState", 2);
             lastAttack = 0;
         } else {
@@ -70,9 +72,13 @@ public class TentacleEnemy : MonoBehaviour {
 
     void CheckForAttackDistance() {
         if(Vector3.Distance(target.transform.position, transform.position) < attackRadius) {
-            SetState(EnemyState.Attacking);
+            if(state != EnemyState.Attacking) {
+                SetState(EnemyState.Attacking);
+            }
         } else {
-            SetState(EnemyState.Chasing);
+            if(state != EnemyState.Chasing) {
+                SetState(EnemyState.Chasing);
+            }
         }
     }
 
@@ -92,17 +98,25 @@ public class TentacleEnemy : MonoBehaviour {
     }
 
     void SetState(EnemyState newState) {
+         if(isHiding) {
+             return;
+         }
         if(newState == EnemyState.Sleeping) {
             burrowEffect.SetActive(true);
+            sound.Play(0);
         }
 
         if(state == EnemyState.Sleeping && newState == EnemyState.Chasing) {
             burrowEffect.SetActive(true);
+            sound.Play(0);
         }
 
-        if(!isHiding) {
-            state = newState;
+        if(newState == EnemyState.Chasing) {
+            sound.Play(2);
         }
+
+       
+        state = newState;
     }
 
     void handleChasing() {
