@@ -20,6 +20,8 @@ public class ObjectDetector : MonoBehaviour {
             if(other.transform.root.gameObject != target) {
                 return;
             }
+        } else {
+            target = other.transform.root.gameObject;
         }
 
         detectEvent.Invoke();
