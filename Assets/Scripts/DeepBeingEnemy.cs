@@ -14,6 +14,7 @@ public class DeepBeingEnemy : MonoBehaviour {
     private Vector3 idleLookDirection;
     public GameObject SlapperAttackBox;
     public NavMeshAgent agent;
+    public SoundManager sound;
 
     void Start() {
         InvokeRepeating("pickRandomDirection", 0.0f, Random.Range(3, 6));
@@ -63,6 +64,7 @@ public class DeepBeingEnemy : MonoBehaviour {
             SlapperAttackBox.SetActive(true);
             anim.SetInteger("AnimState", 2);
             lastAttack = 0;
+            sound.Play(2);
         } else {
             lastAttack += Time.deltaTime;
         }
@@ -71,24 +73,40 @@ public class DeepBeingEnemy : MonoBehaviour {
 
     void CheckForAttackDistance() {
         if(Vector3.Distance(target.transform.position, transform.position) < attackRadius) {
-            state = EnemyState.Attacking;
+            if(state != EnemyState.Attacking) {
+                SetState(EnemyState.Attacking);
+            }
         } else {
-            state = EnemyState.Chasing;
+            if(state != EnemyState.Chasing) {
+                SetState(EnemyState.Chasing);
+            }
         }
     }
 
     void DetectedTarget(GameObject newTarget) {
         Debug.Log("New Target!");
         target = newTarget;
-        state = EnemyState.Chasing;
+        SetState(EnemyState.Chasing);
     }
 
     void LostTarget(GameObject lostTarget) {
         if(lostTarget != target) {
             return;
         }
-        state = EnemyState.Idle;
+        SetState(EnemyState.Idle);
         target = null;
+    }
+
+    void SetState(EnemyState newState) {
+        if(newState == EnemyState.Chasing) {
+            sound.Play(0);
+        }
+
+        if(newState == EnemyState.Attacking) {
+            sound.Play(1);
+        }
+
+        state = newState;
     }
 
     void handleChasing() {

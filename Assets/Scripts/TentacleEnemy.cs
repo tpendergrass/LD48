@@ -12,6 +12,10 @@ public class TentacleEnemy : MonoBehaviour {
     public Animator anim;
     private Vector3 idleLookDirection;
     public GameObject TentacleAttackBox;
+    public bool isHiding;
+    public GameObject burrowEffect;
+    public Collider blocker;
+    public SoundManager sound;
 
     void Start() {
         InvokeRepeating("pickRandomDirection", 0.0f, Random.Range(3, 6));
@@ -30,22 +34,26 @@ public class TentacleEnemy : MonoBehaviour {
         switch(state) {
             case EnemyState.Sleeping:
                 anim.SetInteger("AnimState", -1);
+                blocker.enabled = false;
                 break;
             case EnemyState.Idle:
                 anim.SetInteger("AnimState", 0);
                 lookAt(idleLookDirection);
+                blocker.enabled = true;
                 //swing your tentacles back and forth
                 break;
             case EnemyState.Chasing:
                 anim.SetInteger("AnimState", 1);
                 handleChasing();
                 CheckForAttackDistance();
+                blocker.enabled = true;
                 break;
             case EnemyState.Attacking:
                 anim.SetInteger("AnimState", 1);
                 handleChasing();
                 CheckForAttackDistance();
                 Attack();
+                blocker.enabled = true;
                 break;
         }
     }
@@ -53,6 +61,7 @@ public class TentacleEnemy : MonoBehaviour {
     void Attack() {
         if(lastAttack > attackRate) {
             TentacleAttackBox.SetActive(true);
+            sound.Play(1);
             anim.SetInteger("AnimState", 2);
             lastAttack = 0;
         } else {
@@ -63,20 +72,51 @@ public class TentacleEnemy : MonoBehaviour {
 
     void CheckForAttackDistance() {
         if(Vector3.Distance(target.transform.position, transform.position) < attackRadius) {
-            state = EnemyState.Attacking;
+            if(state != EnemyState.Attacking) {
+                SetState(EnemyState.Attacking);
+            }
         } else {
-            state = EnemyState.Chasing;
+            if(state != EnemyState.Chasing) {
+                SetState(EnemyState.Chasing);
+            }
         }
+    }
+
+    public void DetectedFlare() {
+        SetState(EnemyState.Sleeping);
+        isHiding = true;
     }
 
     void DetectedTarget(GameObject newTarget) {
         target = newTarget;
-        state = EnemyState.Chasing;
+        SetState(EnemyState.Chasing);
     }
 
     void LostTarget(GameObject newTarget) {
-        state = EnemyState.Idle;
+        SetState(EnemyState.Idle);
         target = null;
+    }
+
+    void SetState(EnemyState newState) {
+         if(isHiding) {
+             return;
+         }
+        if(newState == EnemyState.Sleeping) {
+            burrowEffect.SetActive(true);
+            sound.Play(0);
+        }
+
+        if(state == EnemyState.Sleeping && newState == EnemyState.Chasing) {
+            burrowEffect.SetActive(true);
+            sound.Play(0);
+        }
+
+        if(newState == EnemyState.Chasing) {
+            sound.Play(2);
+        }
+
+       
+        state = newState;
     }
 
     void handleChasing() {
