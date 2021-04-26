@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour {
     public GameObject DepthChargeCounterUI;
     public Text DepthChargeCounterText;
     public GameObject[] TunnelRubble;
+    public AnimPlayTrigger[] TentacleBlocker;
 
     void Start() {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -54,7 +55,12 @@ public class GameManager : MonoBehaviour {
             DepthChargeArmed = false;
             DepthChargeCounterUI.SetActive(false);
             TunnelRubble[DepthChargeTunnel].SetActive(true);
+            ClearTentacle();
         }
+    }
+
+    void ClearTentacle() {
+        TentacleBlocker[DepthChargeTunnel].PlayAnimation();
     }
 
     public void SetWaterFog(bool isOn) {
