@@ -41,7 +41,7 @@ public class EnvironmentManager : MonoBehaviour {
         ApplySetting(1);
     }
 
-    void ApplySetting(int settingIndex) {
+    public void ApplySetting(int settingIndex) {
         currentIndex = settingIndex;
         RenderSettings.skybox = settings[settingIndex].skyboxMaterial;
         RenderSettings.fogColor = settings[settingIndex].fogColor;
