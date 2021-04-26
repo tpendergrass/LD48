@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour {
     public GameObject[] TunnelRubble;
     public AnimPlayTrigger[] TentacleBlocker;
     public WaterLevelManager waterLevel;
+    public GameObject victoryScreen;
 
     void Start() {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -90,6 +91,10 @@ public class GameManager : MonoBehaviour {
 
     public void SetDepthChargeUI(bool isVisible) {
         depthChargeUI.SetActive(isVisible);
+    }
+
+    public void ShowVictoryScreen() {
+        victoryScreen.SetActive(true);
     }
 
     void TransitionFogDensity() {
