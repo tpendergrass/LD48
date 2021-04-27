@@ -24,6 +24,9 @@ public class Player : MonoBehaviour {
     public int playerHealth = 4;
     public UnityEvent damageEvent;
     public GameObject gameOverScreen;
+    public AudioSource footsteps; 
+
+
     // Start is called before the first frame update
     void Start() {
         controller = gameObject.GetComponent<CharacterController>();
@@ -77,9 +80,20 @@ public class Player : MonoBehaviour {
         if(isControlling) {
             calculateJump();
             calculateMovementInput();
+            playWalkingSound();
         }
         controller.Move(movementVector * moveSpeed * Time.deltaTime);
         controller.Move(verticalVelocity);
+    }
+
+    void playWalkingSound() {
+        if(controller.isGrounded && movementVector.magnitude > 0.1) {
+            if(!footsteps.isPlaying) {
+                footsteps.UnPause();
+            }
+        } else {
+            footsteps.Pause();
+        }
     }
 
     void calculateFloating() {
