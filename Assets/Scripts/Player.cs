@@ -87,6 +87,9 @@ public class Player : MonoBehaviour {
     }
 
     void playWalkingSound() {
+        if(footsteps == null) {
+            return;
+        }
         if(controller.isGrounded && movementVector.magnitude > 0.1) {
             if(!footsteps.isPlaying) {
                 footsteps.UnPause();
