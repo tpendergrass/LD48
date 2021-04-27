@@ -5,16 +5,20 @@ using UnityEngine.Events;
 
 public class PlayerTrigger : MonoBehaviour {
     public GameObject player;
+    public GameObject submarine;
     public UnityEvent triggerEvent;
     public GameObject[] triggerEnablers;
     
     void Start() {
         player = GameObject.FindGameObjectWithTag("Player");
+        submarine = GameObject.FindGameObjectWithTag("Submarine");
     }
 
     void OnTriggerEnter(Collider other) {
         if(other.gameObject.transform.root.gameObject != player) {
-            return;
+            if(other.gameObject.transform.root.gameObject != submarine) {
+                return;
+            }
         }
         triggerEvent.Invoke();
         gameObject.SetActive(false);
