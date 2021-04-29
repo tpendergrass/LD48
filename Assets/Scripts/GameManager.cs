@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     private float fogTransitionVelocity;
-    public GameObject player;
+    private Player player;
     public UnityEvent gameStartEvents;
     public GameObject flareUI;
     public GameObject flashlightUI;
@@ -22,9 +22,10 @@ public class GameManager : MonoBehaviour {
     public WaterLevelManager waterLevel;
     public GameObject victoryScreen;
     public GameObject kraken;
+    public int playerInTunnel;
 
     void Start() {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         gameStartEvents.Invoke();
     }
 
@@ -46,9 +47,20 @@ public class GameManager : MonoBehaviour {
             DepthChargeArmed = false;
             DepthChargeCounterUI.SetActive(false);
             TunnelRubble[DepthChargeTunnel].SetActive(true);
+            collapseOnDemPlayahs();
             Invoke("SetWater", 1);
             ClearTentacle(); // This fails on last charge. must be last action.
         }
+    }
+
+    public void collapseOnDemPlayahs() {
+        if(playerInTunnel == DepthChargeTunnel) {
+            player.Die();
+        }
+    }
+
+    public void setTunnelForPlayer(int tunnelSet) {
+        playerInTunnel = tunnelSet;
     }
 
     void SetWater() {
